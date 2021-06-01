@@ -7,24 +7,27 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-public class Test_PoprawnegoLogowania {
+public class RegistrationTest {
     @Test
-    public void correctLoginTest() {
+    public void correctRegistrationTest() {
         System.setProperty("webdriver.chrome.driver", "c:/dev/driver/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
 
-        driver.get("http://localhost:4444/");
+        driver.get("http://localhost:4444/Account/Register");
 
         WebElement emailTxt = driver.findElement(By.cssSelector("#Email"));
-        emailTxt.sendKeys("test@test.com");
+        emailTxt.sendKeys("user"+System.currentTimeMillis()+"@gmail.com");
 
         WebElement passwordTxt = driver.findElement(By.cssSelector("#Password"));
         passwordTxt.sendKeys("Test1!");
 
-        WebElement loginBtn = driver.findElement(By.cssSelector("button[type=submit]"));
-        loginBtn.click();
+        WebElement confirmPasswordTxt = driver.findElement(By.cssSelector("#ConfirmPassword"));
+        confirmPasswordTxt.sendKeys("Test1!");
+
+        WebElement registerBtn = driver.findElement(By.cssSelector("button[type=submit]"));
+        registerBtn.click();
 
         WebElement welcomeElm = driver.findElement(By.cssSelector(".profile_info>h2"));
 
