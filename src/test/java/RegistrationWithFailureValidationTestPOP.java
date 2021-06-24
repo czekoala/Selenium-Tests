@@ -7,9 +7,9 @@ public class RegistrationWithFailureValidationTestPOP extends SeleniumBaseTest {
     @DataProvider
     public static Object[][] wrongPasswords() {
         return new Object[][] {
-                { "test1!", "Passwords must have at least one uppercase ('A'-'Z')." }, //.text-danger validation-summary-errors>ul>li
-                { "Test!@", "Passwords must have at least one digit ('0'-'9')." },  //.text-danger validation-summary-errors>ul>li
-                { "Test11", "Passwords must have at least one non alphanumeric character." }  //.text-danger validation-summary-errors>ul>li
+                { "test1!", "Passwords must have at least one uppercase ('A'-'Z')." },
+                { "Test!@", "Passwords must have at least one digit ('0'-'9')." },
+                { "Test11", "Passwords must have at least one non alphanumeric character." }
         };
     }
 
