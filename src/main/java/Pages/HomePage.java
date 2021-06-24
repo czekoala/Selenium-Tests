@@ -1,92 +1,105 @@
 package Pages;
 
+import Pages.SeleniumPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class HomePage extends SeleniumPage {
 
-    public HomePage(WebDriver driver) {
-        super(driver);
-    }
+        public HomePage(WebDriver driver) {
+                super(driver);
+        }
 
-    @FindBy(css = ".profile_info>h2")
-    private WebElement welcomeElm;
+        @FindBy(css = ".profile_info>h2")
+        private WebElement welcomeElm;
 
-    @FindBy(css = ".menu-workspace")
-    private WebElement workspaceNav;
+        @FindBy(css = ".menu-workspace")
+        private WebElement workspaceNav;
 
-    @FindBy(css = "a[href$=Projects]")
-    private WebElement processesMenu;
+        @FindBy(css = "a[href$=Projects]")
+        private WebElement processesMenu;
 
-    @FindBy(linkText = "Dashboard")
-    private WebElement dashboardMenu;
+        @FindBy(linkText = "Dashboard")
+        private WebElement dashboardMenu;
 
-    @FindBy(css = "a[href$='/Characteristics']")
-    private WebElement characteristicsMenu;
+        @FindBy(css = "a[href$='/Characteristics']")
+        private WebElement characteristicsMenu;
 
-    @FindBy(css = ".menu-home")
-    private WebElement homeNav;
+        @FindBy(css = ".menu-home")
+        private WebElement homeNav;
 
-    @FindBy(css = "a.user-profile")
-    private WebElement userProfile;
+        @FindBy(css = "a.user-profile")
+        private WebElement userProfile;
 
-    @FindBy(css = "a[href*=Logout]")
-    private WebElement logoutLnk;
+        @FindBy(css = "a[href*=Logout]")
+        private WebElement logoutLnk;
 
 
-    public HomePage assertWelcomeElementIsShown() {
-        Assert.assertTrue(welcomeElm.isDisplayed(), "Welcome element is not shown.");
-        Assert.assertTrue(welcomeElm.getText().contains("Welcome"), "Welcome element text: '" + welcomeElm.getText() + "' does not contain word 'Welcome'");
-        return this;
-    }
+        public HomePage assertWelcomeElementIsShown() {
+                Assert.assertTrue(welcomeElm.isDisplayed(), "Welcome element is not shown.");
+                Assert.assertTrue(welcomeElm.getText().contains("Welcome"), "Welcome element text: '" + welcomeElm.getText() + "' does not contain word 'Welcome'");
+                return this;
+        }
 
-//    public ProcessesPage goToProcesses() {
-//        if (!isParentExpanded(workspaceNav)) {
-//            workspaceNav.click();
-//        }
-//        WebDriverWait wait = new WebDriverWait(driver, 5);
-//        wait.until(ExpectedConditions.elementToBeClickable(processesMenu));
-//
-//        processesMenu.click();
-//        return new ProcessesPage(driver);
-//    }
-//
-//    public CharacteristicsPage goToCharacteristics() {
-//        if (!isParentExpanded(workspaceNav)) {
-//            workspaceNav.click();
-//        }
-//        WebDriverWait wait = new WebDriverWait(driver, 5);
-//        wait.until(ExpectedConditions.elementToBeClickable(characteristicsMenu));
-//
-//        characteristicsMenu.click();
-//        return new CharacteristicsPage(driver);
-//    }
-//
-//    public DashboardPage goToDashboard() {
-//        if (!isParentExpanded(homeNav)) {
-//            homeNav.click();
-//        }
-//        WebDriverWait wait = new WebDriverWait(driver, 5);
-//        wait.until(ExpectedConditions.elementToBeClickable(dashboardMenu));
-//
-//        dashboardMenu.click();
-//        return new DashboardPage(driver);
-//    }
+        public ProcessesPage goToProcesses() {
+                if (!isParentExpanded(workspaceNav)) {
+                        workspaceNav.click();
+                }
+                WebDriverWait wait = new WebDriverWait(driver, 5);
+                wait.until(ExpectedConditions.elementToBeClickable(processesMenu));
 
-    private boolean isParentExpanded(WebElement menuLink) {
-        WebElement parent = menuLink.findElement(By.xpath("./.."));
-        return parent.getAttribute("class").contains("active");
-    }
+                processesMenu.click();
+                return new ProcessesPage(driver);
+        }
 
-    public LoginPage logout() {
-        userProfile.click();
-        logoutLnk.click();
+        public CharacteristicsPage goToCharacteristics() {
+                if (!isParentExpanded(workspaceNav)) {
+                        workspaceNav.click();
+                }
+                WebDriverWait wait = new WebDriverWait(driver, 5);
+                wait.until(ExpectedConditions.elementToBeClickable(characteristicsMenu));
 
-        return new LoginPage(driver);
-    }
+                characteristicsMenu.click();
+                return new CharacteristicsPage(driver);
+        }
 
+        public DashboardPage goToDashboard() {
+                if (!isParentExpanded(homeNav)) {
+                        homeNav.click();
+                }
+                WebDriverWait wait = new WebDriverWait(driver, 5);
+                wait.until(ExpectedConditions.elementToBeClickable(dashboardMenu));
+
+                dashboardMenu.click();
+                return new DashboardPage(driver);
+        }
+
+        private boolean isParentExpanded(WebElement menuLink) {
+                WebElement parent = menuLink.findElement(By.xpath("./.."));
+                return parent.getAttribute("class").contains("active");
+        }
+
+        public Pages.LoginPage logout() {
+                userProfile.click();
+                logoutLnk.click();
+
+                return new Pages.LoginPage(driver);
+        }
+
+        public SeleniumPage goToUrl(String urlHref) {
+                if (urlHref.equals("a[href$='/']")){
+                        return goToDashboard();
+                }else if (urlHref.equals("a[href$='/Projects']")) {
+                        return goToProcesses();
+                }else {
+                        return goToCharacteristics();
+                }
+        }
 }
 

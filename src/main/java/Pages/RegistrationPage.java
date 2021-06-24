@@ -4,6 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+
+import java.util.List;
 
 public class RegistrationPage {
     protected WebDriver driver;
@@ -28,14 +31,14 @@ public class RegistrationPage {
     @FindBy(css = "button[type=submit]")
     private WebElement registerBtn;
 
-//    @FindBy(id = "Email-error")
-//    public WebElement emailError;
-//
-//    @FindBy(css = ".validation-summary-errors>ul>li")
-//    public List<WebElement> loginErrors;
-//
-//    @FindBy(css = "a[href*=Register]")
-//    private WebElement registerLnk;
+    @FindBy(id = "Email-error")
+    public WebElement emailError;
+
+    @FindBy(css = ".validation-summary-errors>ul>li")
+    public List<WebElement> loginErrors;
+
+    @FindBy(css = "a[href*=Register]")
+    private WebElement registerLnk;
 
     public RegistrationPage typeEmail(String email) {
         emailTxt.clear();
@@ -49,8 +52,31 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage submitLoginWithFailure() {
-        registerBtn.click();
+    public RegistrationPage typeConfirmPassword(String password) {
+        confirmPasswordTxt.clear();
+        confirmPasswordTxt.sendKeys(password);
         return this;
     }
+
+    public HomePage submitRegistration() {
+        registerBtn.click();
+        return new HomePage(driver);
+    }
+
+    public RegistrationPage submitRegistrationFailure() {
+        registerBtn.click();
+        return new RegistrationPage(driver);
+    }
+
+    public RegistrationPage assertRegistrationFailure(String expError) {
+        boolean doesErrorExists = confirmPasswordErrorTxt.getText().equals(expError);
+        Assert.assertTrue(doesErrorExists);
+        return this;
+    }
+    public RegistrationPage assertRegistrationFailureValidation(String expError) {
+        boolean doesErrorExists = loginErrors.get(0).getText().equals(expError);
+        Assert.assertTrue(doesErrorExists);
+        return this;
+    }
+
 }

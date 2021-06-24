@@ -4,6 +4,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 public class SeleniumPage {
     protected WebDriver driver;
@@ -21,4 +22,9 @@ public class SeleniumPage {
         }
         return false;
     }
+    public HomePage assertCurrentUrl(String url) {
+        Assert.assertTrue(driver.getCurrentUrl().contains(url));
+        return new HomePage(driver);
+    }
 }
+

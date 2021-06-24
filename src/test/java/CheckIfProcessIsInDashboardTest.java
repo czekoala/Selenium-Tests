@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-public class CheckIfProcesIsInDashboardTest {
+public class CheckIfProcessIsInDashboardTest {
     WebDriver driver;
 
     @BeforeMethod
